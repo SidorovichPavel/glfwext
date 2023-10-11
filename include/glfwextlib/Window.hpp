@@ -5,7 +5,7 @@
 #include <string>
 #include <array>
 
-#include <glfwextlib/Events/Events.hpp>
+#include <glfwextlib/Events.hpp>
 
 namespace glfwext
 {
@@ -18,10 +18,12 @@ namespace glfwext
         Window(const std::string& title, int width, int height) noexcept;
         virtual ~Window();
 
-
         void make_current() const noexcept;
         bool should_close() const noexcept;
         void swap_buffers() const noexcept;
+        void set_input_mode(int mode, int value);
+
+
 
         float ratio() const noexcept;
         const std::array<bool, 1024>& keys_state() const noexcept;

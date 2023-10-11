@@ -1,6 +1,6 @@
 #include <glfwextlib/Window.hpp>
-
-#include <glfwextlib/Events/Events.hpp>
+#include <glfwextlib/Events.hpp>
+#include <glfwextlib/except.hpp>
 
 #include <stdexcept>
 #include <algorithm>
@@ -8,7 +8,6 @@
 
 namespace glfwext
 {
-
     Window::Window(const std::string& title, int width, int height) noexcept
         :
         title_(title),
@@ -20,14 +19,14 @@ namespace glfwext
         {
             const char* desc;
             glfwGetError(&desc);
-            throw std::runtime_error(desc);
+            throw Exception(desc);
         }
 
         glfwSetWindowUserPointer(window_, this);
 
+        glfwSetFramebufferSizeCallback(window_, static_framebuffer_size_callback);
         glfwSetKeyCallback(window_, static_key_callback);
         glfwSetCursorPosCallback(window_, static_cursor_pos_callback);
-        glfwSetFramebufferSizeCallback(window_, static_framebuffer_size_callback);
 
         std::ranges::fill(keys_, false);
 
@@ -36,8 +35,6 @@ namespace glfwext
 
         pitch = 0.0f;
         yaw = -90.0f;
-
-        glfwSetInputMode(window_, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
     }
 
     Window::~Window()
@@ -57,6 +54,12 @@ namespace glfwext
     void Window::swap_buffers() const noexcept
     {
         glfwSwapBuffers(window_);
+    }
+
+
+    void Window::set_input_mode(int mode, int value)
+    {
+        glfwSetInputMode(window_, mode, value);
     }
 
     float Window::ratio() const noexcept
@@ -140,8 +143,8 @@ namespace glfwext
 
     /*--------------------------------------------------------------------------------------------------------------------*/
     /* PRIVATE MEMBERS END*/
-    /*--------------------------------------------------------------------------------------------------------------------*/    
-    
+    /*--------------------------------------------------------------------------------------------------------------------*/
+
     /*--------------------------------------------------------------------------------------------------------------------*/
     /* PROTECTED MEMBERS*/
     /*--------------------------------------------------------------------------------------------------------------------*/
