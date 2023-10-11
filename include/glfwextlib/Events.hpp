@@ -21,6 +21,12 @@ namespace glfwext {
             storage_.emplace_back(std::forward<Callable>(callback));
         }
 
+        template <std::invocable<ArgTypes...> Callable>
+        Event& operator+=(Callable&& callback) {
+            storage_.emplace_back(std::forward<Callable>(callback));
+            return *this;
+        }
+
         void detach_all() {
             storage_.clear();
         }
