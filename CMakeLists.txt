@@ -16,9 +16,7 @@ set_target_properties(${PROJECT_NAME} PROPERTIES CXX_STANDARD 23 CXX_STANDARD_RE
 
 target_link_libraries(${PROJECT_NAME} 
     glfw
-    OpenGL
 )
-
 
 target_include_directories(${PROJECT_NAME} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
     
