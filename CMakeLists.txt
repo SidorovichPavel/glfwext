@@ -6,8 +6,9 @@ project(glfwextlib
 find_package(glfw3 REQUIRED)
 
 set(SOURCES
-    src/glfwextlib.cpp
+    src/glfwext.cpp
     src/Window.cpp
+    src/except.cpp
 )
     
 add_library(${PROJECT_NAME} STATIC ${SOURCES})
