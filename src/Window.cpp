@@ -5,6 +5,7 @@
 #include <stdexcept>
 #include <algorithm>
 #include <ranges>
+#include "Window.hpp"
 
 namespace glfwext
 {
@@ -62,6 +63,14 @@ namespace glfwext
         glfwSetWindowShouldClose(window_, value);
     }
 
+
+    std::tuple<float, float> Window::get_cursor_pos()
+    {
+        double xpos, ypos;
+        glfwGetCursorPos(window_, &xpos, &ypos);
+        return std::tuple<float, float>(static_cast<float>(xpos), static_cast<float>(ypos));
+    }
+    
     float Window::ratio() const noexcept
     {
         return static_cast<float>(width_) / static_cast<float>(height_);

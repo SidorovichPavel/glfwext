@@ -23,7 +23,7 @@ namespace glfwext
         void swap_buffers() const noexcept;
         void set_input_mode(int mode, int value);
         void set_should_close(bool value);
-
+        std::tuple<float, float> get_cursor_pos();
 
         float ratio() const noexcept;
         const std::array<bool, 1024>& keys_state() const noexcept;
