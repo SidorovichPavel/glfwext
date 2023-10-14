@@ -29,12 +29,6 @@ namespace glfwext
         glfwSetCursorPosCallback(window_, static_cursor_pos_callback);
 
         std::ranges::fill(keys_, false);
-
-        lastX = 400;
-        lastY = 300;
-
-        pitch = 0.0f;
-        yaw = -90.0f;
     }
 
     Window::~Window()
@@ -62,6 +56,11 @@ namespace glfwext
         glfwSetInputMode(window_, mode, value);
     }
 
+    void Window::set_should_close(bool value)
+    {
+        glfwSetWindowShouldClose(window_, value);
+    }
+    
     float Window::ratio() const noexcept
     {
         return static_cast<float>(width_) / static_cast<float>(height_);
@@ -75,11 +74,6 @@ namespace glfwext
     std::pair<int, int> Window::size() const noexcept
     {
         return std::make_pair(width_, height_);
-    }
-
-    std::pair<float, float> Window::angles() const noexcept
-    {
-        return std::pair<float, float>(yaw, pitch);
     }
 
     /*--------------------------------------------------------------------------------------------------------------------*/
@@ -136,11 +130,13 @@ namespace glfwext
             key_release(this, key, scancode, mode);
             break;
         }
-
-        if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
-            glfwSetWindowShouldClose(window_, GL_TRUE);
     }
 
+    void Window::cursor_pos_callback(float xpos, float ypos)
+    {
+        on_cursor_move(xpos, ypos);
+        cursor_move(this, xpos, ypos);
+    }
     /*--------------------------------------------------------------------------------------------------------------------*/
     /* PRIVATE MEMBERS END*/
     /*--------------------------------------------------------------------------------------------------------------------*/
@@ -161,25 +157,7 @@ namespace glfwext
     void Window::on_cursor_move(float xpos, float ypos)
     {    }
 
-    void Window::cursor_pos_callback(float xpos, float ypos)
-    {
-        float xoffset = xpos - lastX;
-        float yoffset = ypos - lastY; // Обратный порядок вычитания потому что оконные Y-координаты возрастают с верху вниз
-        lastX = xpos;
-        lastY = ypos;
 
-        float sensitivity = 0.05f;
-        xoffset *= sensitivity;
-        yoffset *= sensitivity;
-
-        yaw -= xoffset;
-        pitch += yoffset;
-
-        if (pitch > 89.0f)
-            pitch = 89.0f;
-        if (pitch < -89.0f)
-            pitch = -89.0f;
-    }
 
     /*--------------------------------------------------------------------------------------------------------------------*/
     /* PROTECTED MEMBERS END*/

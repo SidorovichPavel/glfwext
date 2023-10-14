@@ -22,12 +22,11 @@ namespace glfwext
         bool should_close() const noexcept;
         void swap_buffers() const noexcept;
         void set_input_mode(int mode, int value);
-
+        void set_should_close(bool value);
 
 
         float ratio() const noexcept;
         const std::array<bool, 1024>& keys_state() const noexcept;
-        std::pair<float, float> angles() const noexcept;
         std::pair<int, int> size() const noexcept;
 
         Event<Window*, int, int> framebuffer_resize;
@@ -58,10 +57,6 @@ namespace glfwext
         int width_, height_;
         std::string title_;
         std::array<bool, 1024> keys_;
-
-        float lastX, lastY;
-        float pitch;
-        float yaw;
     };
     
 }
