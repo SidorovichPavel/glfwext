@@ -24,6 +24,7 @@ namespace glfwext
 
         glfwSetWindowUserPointer(window_, this);
 
+        glfwSetWindowSizeCallback(window_, static_window_size_callback);
         glfwSetFramebufferSizeCallback(window_, static_framebuffer_size_callback);
         glfwSetKeyCallback(window_, static_key_callback);
         glfwSetCursorPosCallback(window_, static_cursor_pos_callback);
@@ -60,7 +61,7 @@ namespace glfwext
     {
         glfwSetWindowShouldClose(window_, value);
     }
-    
+
     float Window::ratio() const noexcept
     {
         return static_cast<float>(width_) / static_cast<float>(height_);
@@ -80,18 +81,26 @@ namespace glfwext
     /* STATIC MEMBERS */
     /*--------------------------------------------------------------------------------------------------------------------*/
 
+    void Window::static_window_size_callback(handle_type window, int width, int height)
+    {
+        auto obj_ptr = reinterpret_cast<Window*>(glfwGetWindowUserPointer(window));
+        if (obj_ptr)
+            obj_ptr->window_size_callback(width, height);
+    }
+
+    void Window::static_framebuffer_size_callback(handle_type window, int width, int height)
+
+    {
+        auto obj_ptr = reinterpret_cast<Window*>(glfwGetWindowUserPointer(window));
+        if (obj_ptr)
+            obj_ptr->framebuffer_size_callback(width, height);
+    }
+
     void Window::static_key_callback(handle_type window, int key, int scancode, int action, int mode)
     {
         auto obj_ptr = reinterpret_cast<Window*>(glfwGetWindowUserPointer(window));
         if (obj_ptr)
             obj_ptr->key_callback(key, scancode, action, mode);
-    }
-
-    void Window::static_framebuffer_size_callback(handle_type window, int width, int height)
-    {
-        auto obj_ptr = reinterpret_cast<Window*>(glfwGetWindowUserPointer(window));
-        if (obj_ptr)
-            obj_ptr->framebuffer_size_callback(width, height);
     }
 
     void Window::static_cursor_pos_callback(handle_type window, double xpos, double ypos)
@@ -108,6 +117,15 @@ namespace glfwext
     /*--------------------------------------------------------------------------------------------------------------------*/
     /* PRIVATE MEMBERS*/
     /*--------------------------------------------------------------------------------------------------------------------*/
+
+    void Window::window_size_callback(int width, int height)
+    {
+        width_ = width;
+        height_ = height;
+
+        on_window_resize(width_, height_);
+        resize(this, width_, height_);
+    }
 
     void Window::framebuffer_size_callback(int width, int height)
     {
@@ -144,6 +162,9 @@ namespace glfwext
     /*--------------------------------------------------------------------------------------------------------------------*/
     /* PROTECTED MEMBERS*/
     /*--------------------------------------------------------------------------------------------------------------------*/
+
+    void Window::on_window_resize(int width, int height)
+    {    }
 
     void Window::on_framebuffer_resize(int width, int height)
     {    }

@@ -29,22 +29,27 @@ namespace glfwext
         const std::array<bool, 1024>& keys_state() const noexcept;
         std::pair<int, int> size() const noexcept;
 
+        Event<Window*, int, int> resize;
         Event<Window*, int, int> framebuffer_resize;
         Event<Window*, int, int, int> key_press;
         Event<Window*, int, int, int> key_release;
         Event<Window*, float, float> cursor_move;
 
     private:
+    
         static void static_window_size_callback(handle_type window, int width, int height);
         static void static_framebuffer_size_callback(handle_type window, int width, int height);
         static void static_key_callback(handle_type window, int key, int scancode, int action, int mode);
         static void static_cursor_pos_callback(handle_type window, double xpos, double ypos);
-        
+
+        void window_size_callback(int width, int height);
         void framebuffer_size_callback(int width, int height);
         void key_callback(int key, int scancode, int action, int mode);
         void cursor_pos_callback(float xpos, float ypos);
-    
+
     protected:
+
+        virtual void on_window_resize(int width, int height);
         virtual void on_framebuffer_resize(int width, int height);
         virtual void on_key_press(int key, int scancode, int mode);
         virtual void on_key_release(int key, int scancode, int mode);
@@ -52,11 +57,10 @@ namespace glfwext
 
     private:
 
-
         handle_type window_;
         int width_, height_;
         std::string title_;
         std::array<bool, 1024> keys_;
     };
-    
+
 }
