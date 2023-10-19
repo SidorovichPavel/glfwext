@@ -1,4 +1,4 @@
-#include <glfwextlib/except.hpp>
+#include <glfwextlib/exception.hpp>
 
 namespace glfwext
 {
