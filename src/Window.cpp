@@ -1,6 +1,6 @@
 #include <glfwextlib/Window.hpp>
 #include <glfwextlib/Events.hpp>
-#include <glfwextlib/except.hpp>
+#include <glfwextlib/exception.hpp>
 
 #include <stdexcept>
 #include <algorithm>
