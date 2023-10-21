@@ -28,6 +28,7 @@ namespace glfwext
         glfwSetFramebufferSizeCallback(window_, static_framebuffer_size_callback);
         glfwSetKeyCallback(window_, static_key_callback);
         glfwSetCursorPosCallback(window_, static_cursor_pos_callback);
+        glfwSetMouseButtonCallback(window_, static_mouse_button_callback);
 
         std::ranges::fill(keys_, false);
     }
@@ -219,7 +220,7 @@ namespace glfwext
 
     void Window::on_mouse_button_press(int button, int mode)
     {    }
-    
+
     void Window::on_mouse_button_release(int button, int mode)
     {    }
 
