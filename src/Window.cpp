@@ -126,6 +126,13 @@ namespace glfwext
             obj_ptr->cursor_pos_callback(static_cast<float>(xpos), static_cast<float>(ypos));
     }
 
+    void Window::static_mouse_button_callback(handle_type window, int button, int action, int mode)
+    {
+        auto obj_ptr = reinterpret_cast<Window*>(glfwGetWindowUserPointer(window));
+        if (obj_ptr)
+            obj_ptr->mouse_button_callback(button, action, mode);
+    }
+
     /*--------------------------------------------------------------------------------------------------------------------*/
     /* STATIC MEMBERS END*/
     /*--------------------------------------------------------------------------------------------------------------------*/
@@ -171,6 +178,22 @@ namespace glfwext
         on_cursor_move(xpos, ypos);
         cursor_move(this, xpos, ypos);
     }
+
+    void Window::mouse_button_callback(int button, int action, int mode)
+    {
+        switch (action)
+        {
+        case GLFW_PRESS:
+            on_mouse_button_press(button, mode);
+            mbutton_press(this, button, mode);
+            break;
+        case GLFW_RELEASE:
+            on_mouse_button_release(button, mode);
+            mbutton_release(this, button, mode);
+            break;
+        }
+    }
+
     /*--------------------------------------------------------------------------------------------------------------------*/
     /* PRIVATE MEMBERS END*/
     /*--------------------------------------------------------------------------------------------------------------------*/
@@ -194,6 +217,10 @@ namespace glfwext
     void Window::on_cursor_move(float xpos, float ypos)
     {    }
 
+    void Window::on_mouse_button_press(int button, int mode)
+    {    }
+    void Window::on_mouse_button_release(int button, int mode)
+    {    }
 
 
     /*--------------------------------------------------------------------------------------------------------------------*/
