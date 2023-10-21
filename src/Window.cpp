@@ -63,11 +63,17 @@ namespace glfwext
     }
 
 
-    std::tuple<float, float> Window::get_cursor_pos()
+    std::tuple<float, float> Window::cursor_pos()
     {
         double xpos, ypos;
         glfwGetCursorPos(window_, &xpos, &ypos);
         return std::tuple<float, float>(static_cast<float>(xpos), static_cast<float>(ypos));
+    }
+
+    std::tuple<int, int> Window::framebuffer_size()
+    {
+        int fbwidth, fbheight;
+        glfwGetFramebufferSize(window_, &fbwidth, &fbheight);
     }
 
     float Window::ratio() const noexcept
