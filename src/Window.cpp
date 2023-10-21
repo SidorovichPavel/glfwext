@@ -29,6 +29,7 @@ namespace glfwext
         glfwSetKeyCallback(window_, static_key_callback);
         glfwSetCursorPosCallback(window_, static_cursor_pos_callback);
         glfwSetMouseButtonCallback(window_, static_mouse_button_callback);
+        glfwSetScrollCallback(window_, static_scroll_callback);
 
         std::ranges::fill(keys_, false);
     }
@@ -134,6 +135,13 @@ namespace glfwext
             obj_ptr->mouse_button_callback(button, action, mode);
     }
 
+    void Window::static_scroll_callback(handle_type window, double xoffset, double yoffset)
+    {
+        auto obj_ptr = reinterpret_cast<Window*>(glfwGetWindowUserPointer(window));
+        if (obj_ptr)
+            obj_ptr->scroll_callback(static_cast<float>(xoffset), static_cast<float>(yoffset));
+    }
+
     /*--------------------------------------------------------------------------------------------------------------------*/
     /* STATIC MEMBERS END*/
     /*--------------------------------------------------------------------------------------------------------------------*/
@@ -195,6 +203,12 @@ namespace glfwext
         }
     }
 
+    void Window::scroll_callback(float xoffset, float yoffset)
+    {
+        on_scroll(xoffset, yoffset);
+        scroll(this, xoffset, yoffset);
+    }
+
     /*--------------------------------------------------------------------------------------------------------------------*/
     /* PRIVATE MEMBERS END*/
     /*--------------------------------------------------------------------------------------------------------------------*/
@@ -224,6 +238,8 @@ namespace glfwext
     void Window::on_mouse_button_release(int button, int mode)
     {    }
 
+    void Window::on_scroll(float xoffset, float yoffset)
+    {    }
 
     /*--------------------------------------------------------------------------------------------------------------------*/
     /* PROTECTED MEMBERS END*/

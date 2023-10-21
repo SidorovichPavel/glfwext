@@ -37,6 +37,7 @@ namespace glfwext
         Event<Window*, float, float> cursor_move;
         Event<Window*, int, int> mbutton_press;
         Event<Window*, int, int> mbutton_release;
+        Event<Window*, float, float> scroll;
 
     private:
     
@@ -45,12 +46,14 @@ namespace glfwext
         static void static_key_callback(handle_type window, int key, int scancode, int action, int mode);
         static void static_cursor_pos_callback(handle_type window, double xpos, double ypos);
         static void static_mouse_button_callback(handle_type window, int button, int action, int mode);
+        static void static_scroll_callback(handle_type window, double xoffset, double yoffset);
 
         void window_size_callback(int width, int height);
         void framebuffer_size_callback(int width, int height);
         void key_callback(int key, int scancode, int action, int mode);
         void cursor_pos_callback(float xpos, float ypos);
         void mouse_button_callback(int button, int action, int mode);
+        void scroll_callback(float xoffset, float yoffset);
 
     protected:
 
@@ -61,6 +64,7 @@ namespace glfwext
         virtual void on_cursor_move(float xpos, float ypos);
         virtual void on_mouse_button_press(int button, int mode);
         virtual void on_mouse_button_release(int button, int mode);
+        virtual void on_scroll(float xoffset, float yoffset);
 
     private:
 
