@@ -74,6 +74,8 @@ namespace glfwext
     {
         int fbwidth, fbheight;
         glfwGetFramebufferSize(window_, &fbwidth, &fbheight);
+
+        return std::make_tuple(fbwidth, fbheight);
     }
 
     float Window::ratio() const noexcept
