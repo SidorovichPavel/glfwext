@@ -219,6 +219,7 @@ namespace glfwext
 
     void Window::on_mouse_button_press(int button, int mode)
     {    }
+    
     void Window::on_mouse_button_release(int button, int mode)
     {    }
 
