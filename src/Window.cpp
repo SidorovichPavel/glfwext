@@ -1,6 +1,7 @@
-#include <glfwextlib/Window.hpp>
-#include <glfwextlib/Events.hpp>
-#include <glfwextlib/exception.hpp>
+#include <GLFW/glfw3.h>
+#include <glfwext/Window.hpp>
+#include <glfwext/Events.hpp>
+#include <glfwext/exception.hpp>
 
 #include <stdexcept>
 #include <algorithm>
@@ -8,7 +9,7 @@
 
 namespace glfwext
 {
-    Window::Window(const std::string& title, int width, int height) noexcept
+    Window::Window(std::string_view title, int width, int height)
         :
         title_(title),
         width_(width),
@@ -18,8 +19,8 @@ namespace glfwext
         if (!window_)
         {
             const char* desc;
-            glfwGetError(&desc);
-            throw Exception(desc);
+            auto err_code = glfwGetError(&desc);
+            throw glfw_exception(err_code, desc);
         }
 
         glfwSetWindowUserPointer(window_, this);
@@ -51,6 +52,10 @@ namespace glfwext
     void Window::swap_buffers() const noexcept
     {
         glfwSwapBuffers(window_);
+    }
+
+    void Window::destroy() const noexcept {
+        glfwDestroyWindow(window_);
     }
 
 

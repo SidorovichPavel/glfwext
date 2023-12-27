@@ -6,9 +6,9 @@
 namespace glfwext
 {
 
-    class Exception : public std::exception {
+    class glfw_exception : public std::exception {
     public:
-        Exception(const std::string& message);
+        glfw_exception(const int code, const char* message);
 
         const char* what() const noexcept override;
 

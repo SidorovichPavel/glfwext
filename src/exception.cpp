@@ -1,13 +1,15 @@
-#include <glfwextlib/exception.hpp>
+#include <format>
+
+#include <glfwext/exception.hpp>
 
 namespace glfwext
 {
-    Exception::Exception(const std::string& message)
+    glfw_exception::glfw_exception(const int code, const char* message)
         :
-        message_(message)
+        message_(std::format("[glfwext]::[exeption]::[error code: {}]::{}", code, message))
     {   }
 
-    const char* Exception::what() const noexcept {
+    const char* glfw_exception::what() const noexcept {
         return message_.c_str();
     }
 }

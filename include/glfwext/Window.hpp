@@ -1,26 +1,28 @@
 #pragma once
 
-#include <GLFW/glfw3.h>
-
 #include <string>
+#include <string_view>
 #include <array>
 
-#include <glfwextlib/Events.hpp>
+#include <glfwext/Events.hpp>
 
-namespace glfwext
-{
+struct GLFWwindow;
+
+namespace glfwext {
 
     class Window
     {
     public:
         using handle_type = GLFWwindow*;
 
-        Window(const std::string& title, int width, int height) noexcept;
+        Window(std::string_view title, int width, int height);
         virtual ~Window();
 
         void make_current() const noexcept;
         bool should_close() const noexcept;
         void swap_buffers() const noexcept;
+        void destroy() const noexcept;
+
         void set_input_mode(int mode, int value);
         void set_should_close(bool value);
         std::tuple<float, float> cursor_pos();
@@ -40,7 +42,7 @@ namespace glfwext
         Event<Window*, float, float> scroll;
 
     private:
-    
+
         static void static_window_size_callback(handle_type window, int width, int height);
         static void static_framebuffer_size_callback(handle_type window, int width, int height);
         static void static_key_callback(handle_type window, int key, int scancode, int action, int mode);

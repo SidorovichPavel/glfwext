@@ -1,2 +1,7 @@
-/.vscode
-/build
+# IDE
+.vscode/
+
+# build
+build/
+build_*/
+
