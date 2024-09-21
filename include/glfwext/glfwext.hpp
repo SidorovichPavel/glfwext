@@ -2,7 +2,6 @@
 
 #include <glfwext/Window.hpp>
 
-namespace glfwext
-{
-    void init();
+namespace glfwext {
+void init();
 }
